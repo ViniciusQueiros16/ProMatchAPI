@@ -1,39 +1,22 @@
 package main
 
 import (
-	"database/sql"
+	database "db"
 	"fmt"
 	"log"
 	"login"
-	"os"
-
-	"github.com/go-sql-driver/mysql"
+	"structs"
+	"time"
+	"users"
 )
-
-var db *sql.DB
 
 func main() {
 
-	// Capture connection properties.
-	cfg := mysql.Config{
-		User:   os.Getenv("DBUSER"),
-		Passwd: os.Getenv("DBPASS"),
-		Net:    "tcp",
-		Addr:   "localhost:3306",
-		DBName: "proposta",
-	}
-	// Get a database handle.
-	var err error
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	db, err := database.InitDB()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	pingErr := db.Ping()
-	if pingErr != nil {
-		log.Fatal(pingErr)
-	}
-	fmt.Println("Connected!")
+	defer database.CloseDB()
 
 	//----------------------------------
 
@@ -47,4 +30,25 @@ func main() {
 	}
 
 	fmt.Println(message)
+
+	//----------------Buscar user pelo nome------------------
+
+	userByName, err := users.UserByUsers(db, "Tony")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Users found: %v\n", userByName)
+
+	//----------------Adiciona um user novo ------------------
+
+	albID, err := users.AddUser(db, structs.Users{
+		Name:      "Sergio",
+		Email:     "sergio@example.com",
+		Password:  "senha6",
+		CreatedAt: time.Now(),
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("ID of added user: %v\n", albID)
 }
