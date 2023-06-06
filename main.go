@@ -1,6 +1,7 @@
 package main
 
 import (
+	"auth"
 	database "db"
 	"fmt"
 	"log"
@@ -51,4 +52,28 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("ID of added user: %v\n", albID)
+
+	//---------------------------------------------------------------
+
+	createToken, err := auth.CreateAuthToken(db, 2)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Users found: %v\n", createToken)
+
+	//---------------------------------------------------------------
+	err = auth.DeleteAuthToken(db, "gW10uSzXyFTKwkjMZ4ecQgl9WrjKOWulJ-5FNJzJtBHRWw17H1VExpHZF7wGjyosTVO03HW3goc84wpxoZ-ZqA==")
+	if err != nil {
+		fmt.Printf("Erro ao excluir o token: %v\n", err)
+	} else {
+		fmt.Println("Token excluído com sucesso!")
+	}
+
+	//---------------------------------------------------------------
+	verifyToken, err := auth.VerifyAuthToken(db, "gW10uSzXyFTKwkjMZ4ecQgl9WrjKOWulJ-5FNJzJtBHRWw17H1VExpHZF7wGjyosTVO03HW3goc84wpxoZ-ZqA==")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Token found: %v\n", verifyToken)
+
 }

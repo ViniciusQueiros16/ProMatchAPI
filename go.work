@@ -6,4 +6,5 @@ use (
 	./DataBase
 	./Login
 	./Models
+	./AuthUser
 )
