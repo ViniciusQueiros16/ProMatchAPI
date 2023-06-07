@@ -76,4 +76,32 @@ func main() {
 	}
 	fmt.Printf("Token found: %v\n", verifyToken)
 
+	//---------------------------------------------------------------
+	err = users.DeleteUser(db, 11)
+	if err != nil {
+		fmt.Printf("Erro ao excluir o usuário: %v\n", err)
+
+	} else {
+		fmt.Println("Usuário excluído com sucesso!")
+
+	}
+	//---------------------------------------------------------------
+
+	updatedUser := structs.Users{
+		ID:        1,
+		Name:      "Novo Nome",
+		Email:     "novoemail@example.com",
+		Password:  "novasenha",
+		CreatedAt: time.Now(),
+	}
+
+	err = users.UpdateUser(db, updatedUser)
+	if err == nil {
+		fmt.Printf("Usuário atualizado com sucesso!")
+
+	} else {
+		fmt.Printf("Erro ao atualizar o usuário: %v\n", err)
+
+	}
+
 }
