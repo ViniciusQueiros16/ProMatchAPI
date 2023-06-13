@@ -6,25 +6,32 @@ import (
 	"os"
 
 	"github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 var db *sql.DB
 
 func InitDB() (*sql.DB, error) {
-	// Capture connection properties.
-	cfg := mysql.Config{
-		User:      os.Getenv("DBUSER"),
-		Passwd:    os.Getenv("DBPASS"),
-		Net:       "tcp",
-		Addr:      "localhost:3306",
-		DBName:    "proposta",
-		ParseTime: true,
-	}
-	// Get a database handle.
-	var err error
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	err := godotenv.Load()
 	if err != nil {
 		return nil, err
+	}
+
+	// Capture connection properties.
+	cfg := mysql.Config{
+		User:                 os.Getenv("DBUSER"),
+		Passwd:               os.Getenv("DBPASS"),
+		Net:                  "tcp",
+		Addr:                 "proposta.cynfirggau4l.us-east-2.rds.amazonaws.com:3306",
+		DBName:               "proposta",
+		ParseTime:            true,
+		AllowNativePasswords: true,
+	}
+	// Get a database handle.
+	var openErr error
+	db, openErr = sql.Open("mysql", cfg.FormatDSN())
+	if openErr != nil {
+		return nil, openErr
 	}
 
 	pingErr := db.Ping()
