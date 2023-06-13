@@ -2,9 +2,10 @@ go 1.20
 
 use (
 	.
-	./Users
+	./AuthUser
 	./DataBase
 	./Login
 	./Models
-	./AuthUser
+	./Users
+	./motion-view-user
 )

@@ -36,11 +36,11 @@ func handler() {
 
 	//----------------Buscar user pelo nome------------------
 
-	userByName, err := users.UserByUsers(db, "Tony")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Users found: %v\n", userByName)
+	// userByName, err := users.UserByUsers(db, "Tony")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Printf("Users found: %v\n", userByName)
 
 	//----------------Adiciona um user novo ------------------
 
