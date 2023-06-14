@@ -7,11 +7,17 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"response"
 	"structs"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go/aws"
 )
+
+type ErrorBody struct {
+	ErrorMsg *string `json:"error,omitempty"`
+}
 
 func UserByUsers(db *sql.DB, name string) ([]structs.Users, error) {
 	var findUsers []structs.Users
@@ -49,21 +55,18 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 
 	name := request.QueryStringParameters["name"]
 
-	userByName, err := UserByUsers(db, name)
+	result, err := UserByUsers(db, name)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Users found: %v\n", userByName)
+	fmt.Printf("Users found: %v\n", result)
 
-	response := events.APIGatewayProxyResponse{
-		StatusCode: http.StatusOK,
-		Body:       fmt.Sprintf("%v", userByName),
-		Headers: map[string]string{
-			"Content-Type": "application/json",
-		},
+	if err != nil {
+		return response.ApiResponse(http.StatusBadRequest, ErrorBody{
+			aws.String(err.Error()),
+		})
 	}
-
-	return response, nil
+	return response.ApiResponse(http.StatusOK, result)
 
 }
 
