@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	database "db"
 	"fmt"
 	"log"
+	"net/http"
 	"structs"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
@@ -37,18 +40,31 @@ func UserByUsers(db *sql.DB, name string) ([]structs.Users, error) {
 	return findUsers, nil
 }
 
-func handler() {
+func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	db, err := database.InitDB()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer database.CloseDB()
 
-	userByName, err := UserByUsers(db, "Tony")
+	name := request.QueryStringParameters["name"]
+
+	userByName, err := UserByUsers(db, name)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("Users found: %v\n", userByName)
+
+	response := events.APIGatewayProxyResponse{
+		StatusCode: http.StatusOK,
+		Body:       fmt.Sprintf("%v", userByName),
+		Headers: map[string]string{
+			"Content-Type": "application/json",
+		},
+	}
+
+	return response, nil
+
 }
 
 func main() {
