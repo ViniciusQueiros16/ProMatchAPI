@@ -9,9 +9,11 @@ import (
 	"structs"
 	"time"
 	"users"
+
+	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func main() {
+func handler() {
 
 	db, err := database.InitDB()
 	if err != nil {
@@ -34,11 +36,11 @@ func main() {
 
 	//----------------Buscar user pelo nome------------------
 
-	userByName, err := users.UserByUsers(db, "Tony")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Users found: %v\n", userByName)
+	// userByName, err := users.UserByUsers(db, "Tony")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Printf("Users found: %v\n", userByName)
 
 	//----------------Adiciona um user novo ------------------
 
@@ -104,4 +106,8 @@ func main() {
 
 	}
 
+}
+
+func main() {
+	lambda.Start(handler)
 }

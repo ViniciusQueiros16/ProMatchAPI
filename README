@@ -1,0 +1,3 @@
+No prompt de comando mysql, execute o script para criar as tabelas do proposta.
+ Você usará o comando source da seguinte forma: 
+ mysql> source /caminho/para/create-tables.sql
