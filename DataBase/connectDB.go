@@ -6,16 +6,11 @@ import (
 	"os"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 )
 
 var db *sql.DB
 
 func InitDB() (*sql.DB, error) {
-	err := godotenv.Load()
-	if err != nil {
-		return nil, err
-	}
 
 	// Capture connection properties.
 	cfg := mysql.Config{
@@ -27,6 +22,7 @@ func InitDB() (*sql.DB, error) {
 		ParseTime:            true,
 		AllowNativePasswords: true,
 	}
+
 	// Get a database handle.
 	var openErr error
 	db, openErr = sql.Open("mysql", cfg.FormatDSN())
