@@ -3,15 +3,16 @@ package main
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"response"
 	"structs"
-	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go/aws"
 
 	database "db"
 )
@@ -47,11 +48,12 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 	defer database.CloseDB()
 
-	user := structs.Users{
-		Name:      "Sergio",
-		Email:     "sergio@example.com",
-		Password:  "senha6",
-		CreatedAt: time.Now(),
+	var user structs.Users
+	err = json.Unmarshal([]byte(request.Body), &user)
+	if err != nil {
+		return response.ApiResponse(http.StatusBadRequest, ErrorBody{
+			aws.String(err.Error()),
+		})
 	}
 
 	userID, err := CreateUser(db, user)
