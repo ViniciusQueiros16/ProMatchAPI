@@ -16,3 +16,14 @@ functions:
     environment:
       DBPASS: 
       DBUSER: 
+
+  motion-create-user:
+    handler: motion-create-user/main
+    events:
+      - http:
+          path: /users
+          method: post
+          cors: true
+    environment:
+      DBPASS: 
+      DBUSER: 
