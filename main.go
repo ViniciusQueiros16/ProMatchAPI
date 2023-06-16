@@ -1,5 +1,5 @@
 package main
-
+// só para testes
 import (
 	"auth"
 	database "db"

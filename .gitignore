@@ -16,4 +16,9 @@ bin
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Node.js dependencies
 node_modules
+
+# Environment variables
+.env
