@@ -1,3 +1,33 @@
-No prompt de comando mysql, execute o script para criar as tabelas do proposta.
- Você usará o comando source da seguinte forma: 
- mysql> source /caminho/para/create-tables.sql
+# PropostaAPI
+
+## Description
+PropostaAPI is a personal project initiated on June 5th, 2023, with the objective of creating and implementing functions, APIs, and other features using a serverless architecture. The project aims to provide endpoints for integration with Proposta FrontEnd, which is also being developed concurrently.
+
+## Requirements
+Make sure you have the following requirements installed before proceeding:
+
+- Language: GO
+- Node.js version 20.2.0
+- Serverless Framework
+- Installed and configured AWS CLI (Command Line Interface)
+
+Ensure that you have these dependencies installed and correctly configured before proceeding with the project.
+
+## Setup Instructions
+1. In the MySQL command prompt, execute the script to create the tables for Proposta. Use the following command:
+
+mysql> source /path/to/create-tables.sql
+
+This will create the necessary tables in the database.
+
+2. Set the database user credentials in the `.env` file.
+
+3. Deploy the application using the following command:
+
+serverless deploy
+
+Make sure to have the necessary dependencies installed before executing the deployment command.
+
+## Usage
+Once the deployment is successful, the PropostaAPI will be ready to use. It provides endpoints and functions to facilitate integration with the Proposta FrontEnd.
+
