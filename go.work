@@ -6,7 +6,8 @@ use (
 	./DataBase
 	./Login
 	./Models
-	./Users
-	./motion-view-user
 	./PrepareResponse
+	./Users
+	./motion-create-user
+	./motion-view-user
 )

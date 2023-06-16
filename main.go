@@ -44,16 +44,16 @@ func handler() {
 
 	//----------------Adiciona um user novo ------------------
 
-	albID, err := users.AddUser(db, structs.Users{
-		Name:      "Sergio",
-		Email:     "sergio@example.com",
-		Password:  "senha6",
-		CreatedAt: time.Now(),
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("ID of added user: %v\n", albID)
+	// albID, err := users.AddUser(db, structs.Users{
+	// 	Name:      "Sergio",
+	// 	Email:     "sergio@example.com",
+	// 	Password:  "senha6",
+	// 	CreatedAt: time.Now(),
+	// })
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Printf("ID of added user: %v\n", albID)
 
 	//---------------------------------------------------------------
 
