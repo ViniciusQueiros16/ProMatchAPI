@@ -5,20 +5,18 @@ provider:
   runtime: go1.x
   region: us-east-2
 
-
 plugins:
   - serverless-dotenv-plugin
 useDotenv: true
-
 
 custom:
   motionEnvironment:
     DBPASS: ${env:DBPASS}
     DBUSER: ${env:DBUSER}
 
-
 functions:
   motion-view-user:
+    name: motion-view-user
     handler: cmd/user/motion-view-user/main
     events:
       - http:
@@ -28,6 +26,7 @@ functions:
     environment: ${self:custom.motionEnvironment}
 
   motion-create-user:
+    name: motion-create-user
     handler: cmd/user/motion-create-user/main
     events:
       - http:
