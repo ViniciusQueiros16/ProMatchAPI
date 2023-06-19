@@ -19,7 +19,7 @@ custom:
 
 functions:
   motion-view-user:
-    handler: motion-view-user/main
+    handler: cmd/user/motion-view-user/main
     events:
       - http:
           path: /users
@@ -28,7 +28,7 @@ functions:
     environment: ${self:custom.motionEnvironment}
 
   motion-create-user:
-    handler: motion-create-user/main
+    handler: cmd/user/motion-create-user/main
     events:
       - http:
           path: /users
