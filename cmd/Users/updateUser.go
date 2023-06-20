@@ -3,7 +3,8 @@ package users
 import (
 	"database/sql"
 	"fmt"
-	"structs"
+
+	"github.com/promatch/structs"
 )
 
 func UpdateUser(db *sql.DB, user structs.Users) error {

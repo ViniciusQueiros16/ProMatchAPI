@@ -1,4 +1,4 @@
-package auth
+package main
 
 import (
 	"crypto/rand"
@@ -6,8 +6,9 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"structs"
 	"time"
+
+	"github.com/promatch/structs"
 )
 
 const (
