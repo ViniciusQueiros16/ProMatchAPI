@@ -6,14 +6,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"response"
-	"structs"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
-
-	database "db"
+	"github.com/promatch/pkg/database"
+	"github.com/promatch/pkg/utils/response"
+	"github.com/promatch/structs"
 )
 
 type ErrorBody struct {
