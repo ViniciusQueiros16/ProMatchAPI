@@ -1,4 +1,4 @@
-service: motion
+service: promatch
 
 provider:
   name: aws
@@ -10,27 +10,27 @@ plugins:
 useDotenv: true
 
 custom:
-  motionEnvironment:
+  promatchEnvironment:
     DBPASS: ${env:DBPASS}
     DBUSER: ${env:DBUSER}
 
 functions:
-  motion-view-user:
-    name: motion-view-user
-    handler: cmd/user/motion-view-user/main
+  promatch-view-user:
+    name: promatch-view-user
+    handler: cmd/user/promatch-view-user/main
     events:
       - http:
           path: /users
           method: get
           cors: true
-    environment: ${self:custom.motionEnvironment}
+    environment: ${self:custom.promatchEnvironment}
 
-  motion-create-user:
-    name: motion-create-user
-    handler: cmd/user/motion-create-user/main
+  promatch-create-user:
+    name: promatch-create-user
+    handler: cmd/user/promatch-create-user/main
     events:
       - http:
           path: /users
           method: post
           cors: true
-    environment: ${self:custom.motionEnvironment}
+    environment: ${self:custom.promatchEnvironment}

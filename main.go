@@ -7,7 +7,7 @@ import (
 	"time"
 
 	users "github.com/promatch/cmd/Users"
-	auth "github.com/promatch/cmd/auth/motion-auth-user"
+	auth "github.com/promatch/cmd/auth/promatch-auth-user"
 	"github.com/promatch/cmd/login"
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/structs"
