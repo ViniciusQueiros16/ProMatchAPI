@@ -7,16 +7,13 @@ import (
 	"time"
 
 	users "github.com/promatch/cmd/Users"
-
-	login "github.com/promatch/cmd/login"
-	auth "github.com/promatch/cmd/user/motion-auth-user"
+	auth "github.com/promatch/cmd/auth/motion-auth-user"
+	"github.com/promatch/cmd/login"
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/structs"
-
-	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func handler() {
+func main() {
 
 	db, err := database.InitDB()
 	if err != nil {
@@ -109,8 +106,4 @@ func handler() {
 
 	}
 
-}
-
-func main() {
-	lambda.Start(handler)
 }
