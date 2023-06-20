@@ -1,7 +1,7 @@
 {
-  "name": "propostaapi",
+  "name": "promatch",
   "version": "1.0.0",
-  "description": "No prompt de comando mysql, execute o script para criar as tabelas do proposta.  Você usará o comando source da seguinte forma:   mysql> source /caminho/para/create-tables.sql",
+  "description": "No prompt de comando mysql, execute o script para criar as tabelas do promatch.  Você usará o comando source da seguinte forma:   mysql> source /caminho/para/create-tables.sql",
   "main": "index.js",
   "scripts": {
     "setup:dev": "env-cmd -f .env cross-env-shell serverless config credentials --provider aws -o --key '$AWS_TOKEN' --secret '$AWS_SECRET' --profile '$AWS_PROFILE'",
