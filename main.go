@@ -1,14 +1,17 @@
 package main
+
 // só para testes
 import (
-	"auth"
-	database "db"
 	"fmt"
 	"log"
-	"login"
-	"structs"
 	"time"
-	"users"
+
+	users "github.com/promatch/cmd/Users"
+
+	login "github.com/promatch/cmd/login"
+	auth "github.com/promatch/cmd/user/motion-auth-user"
+	"github.com/promatch/pkg/database"
+	"github.com/promatch/structs"
 
 	"github.com/aws/aws-lambda-go/lambda"
 )
