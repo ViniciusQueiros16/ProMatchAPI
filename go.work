@@ -2,12 +2,12 @@ go 1.20
 
 use (
 	.
-	./AuthUser
-	./DataBase
-	./Login
-	./Models
-	./PrepareResponse
-	./Users
-	./motion-create-user
-	./motion-view-user
+	./cmd/user/motion-auth-user
+	./pkg/database
+	./models
+	./pkg/utils/PrepareResponse
+	./cmd/Users
+	./cmd/Login
+	./cmd/user/motion-create-user
+	./cmd/user/motion-view-user
 )
