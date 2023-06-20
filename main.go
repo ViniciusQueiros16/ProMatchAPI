@@ -1,19 +1,19 @@
 package main
+
 // só para testes
 import (
-	"auth"
-	database "db"
 	"fmt"
 	"log"
-	"login"
-	"structs"
 	"time"
-	"users"
 
-	"github.com/aws/aws-lambda-go/lambda"
+	users "github.com/promatch/cmd/Users"
+	auth "github.com/promatch/cmd/auth/motion-auth-user"
+	"github.com/promatch/cmd/login"
+	"github.com/promatch/pkg/database"
+	"github.com/promatch/structs"
 )
 
-func handler() {
+func main() {
 
 	db, err := database.InitDB()
 	if err != nil {
@@ -106,8 +106,4 @@ func handler() {
 
 	}
 
-}
-
-func main() {
-	lambda.Start(handler)
 }
