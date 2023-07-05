@@ -1,10 +1,9 @@
-package auth
+package main
 
 import (
 	"crypto/rand"
 	"database/sql"
 	"encoding/base64"
-	"errors"
 	"fmt"
 	"time"
 
@@ -53,45 +52,3 @@ func CreateAuthToken(db *sql.DB, userID int64) (structs.AuthToken, error) {
 	return authToken, nil
 }
 
-func VerifyAuthToken(db *sql.DB, token string) (int64, error) {
-	var userID int64
-	var expiresAt time.Time
-
-	err := db.QueryRow("SELECT user_id, expires_at FROM auth_tokens WHERE token = ? LIMIT 1", token).Scan(&userID, &expiresAt)
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return 0, errors.New("VerifyAuthToken: Invalid token")
-		}
-		return 0, fmt.Errorf("VerifyAuthToken: %v", err)
-	}
-
-	if expiresAt.Before(time.Now()) {
-		return 0, errors.New("VerifyAuthToken: Token has expired")
-	}
-
-	return userID, nil
-}
-
-func DeleteAuthToken(db *sql.DB, token string) error {
-	stmt, err := db.Prepare("DELETE FROM auth_tokens WHERE token = ?")
-	if err != nil {
-		return fmt.Errorf("DeleteAuthToken: %v", err)
-	}
-	defer stmt.Close()
-
-	result, err := stmt.Exec(token)
-	if err != nil {
-		return fmt.Errorf("DeleteAuthToken: %v", err)
-	}
-
-	rowsAffected, err := result.RowsAffected()
-	if err != nil {
-		return fmt.Errorf("DeleteAuthToken: %v", err)
-	}
-
-	if rowsAffected == 0 {
-		return fmt.Errorf("DeleteAuthToken: Token not found")
-	}
-
-	return nil
-}
