@@ -2,8 +2,8 @@ stages:
   - build
   - deploy
 variables:
-    AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
-    AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
+  AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
+  AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
 
 build:
   stage: build
@@ -12,10 +12,14 @@ build:
     - go mod download
     - go build -o promatch-view-user ./cmd/user/promatch-view-user/main.go
     - go build -o promatch-create-user ./cmd/user/promatch-create-user/main.go
+    - go build -o promatch-create-auth-token ./cmd/auth/promatch-create-auth-token/main.go
+    - go build -o promatch-delete-auth-token ./cmd/auth/promatch-delete-auth-token/main.go
   artifacts:
     paths:
       - promatch-view-user
       - promatch-create-user
+      - promatch-create-auth-token
+      - promatch-delete-auth-token
 
 deploy:
   stage: deploy
