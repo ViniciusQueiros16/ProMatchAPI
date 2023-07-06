@@ -34,3 +34,13 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
+
+  promatch-create-auth-token:
+    name: promatch-create-auth-token
+    handler: cmd/user/promatch-create-auth-token/main
+    events:
+      - http:
+          path: /auth
+          method: post
+          cors: true
+    environment: ${self:custom.promatchEnvironment}

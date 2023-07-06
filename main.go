@@ -7,7 +7,7 @@ import (
 	"time"
 
 	users "github.com/promatch/cmd/Users"
-	auth "github.com/promatch/cmd/auth/promatch-auth-user"
+	
 	"github.com/promatch/cmd/login"
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/structs"
@@ -57,26 +57,26 @@ func main() {
 
 	//---------------------------------------------------------------
 
-	createToken, err := auth.CreateAuthToken(db, 2)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Users found: %v\n", createToken)
+	// createToken, err := auth.CreateAuthToken(db, 2)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Printf("Users found: %v\n", createToken)
 
 	//---------------------------------------------------------------
-	err = auth.DeleteAuthToken(db, "gW10uSzXyFTKwkjMZ4ecQgl9WrjKOWulJ-5FNJzJtBHRWw17H1VExpHZF7wGjyosTVO03HW3goc84wpxoZ-ZqA==")
-	if err != nil {
-		fmt.Printf("Erro ao excluir o token: %v\n", err)
-	} else {
-		fmt.Println("Token excluído com sucesso!")
-	}
+	// err = auth.DeleteAuthToken(db, "gW10uSzXyFTKwkjMZ4ecQgl9WrjKOWulJ-5FNJzJtBHRWw17H1VExpHZF7wGjyosTVO03HW3goc84wpxoZ-ZqA==")
+	// if err != nil {
+	// 	fmt.Printf("Erro ao excluir o token: %v\n", err)
+	// } else {
+	// 	fmt.Println("Token excluído com sucesso!")
+	// }
 
 	//---------------------------------------------------------------
-	verifyToken, err := auth.VerifyAuthToken(db, "gW10uSzXyFTKwkjMZ4ecQgl9WrjKOWulJ-5FNJzJtBHRWw17H1VExpHZF7wGjyosTVO03HW3goc84wpxoZ-ZqA==")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Token found: %v\n", verifyToken)
+	// verifyToken, err := auth.VerifyAuthToken(db, "gW10uSzXyFTKwkjMZ4ecQgl9WrjKOWulJ-5FNJzJtBHRWw17H1VExpHZF7wGjyosTVO03HW3goc84wpxoZ-ZqA==")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Printf("Token found: %v\n", verifyToken)
 
 	//---------------------------------------------------------------
 	err = users.DeleteUser(db, 11)

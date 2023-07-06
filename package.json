@@ -13,6 +13,7 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "env-cmd": "^10.1.0",
+    "serverless": "^2.0.0" ,
     "serverless-dotenv-plugin": "^6.0.0"
   }
 }
