@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/pkg/utils/response"
@@ -54,4 +55,8 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		})
 	}
 	return response.ApiResponse(http.StatusOK, token)
+}
+
+func main() {
+	lambda.Start(handler)
 }
