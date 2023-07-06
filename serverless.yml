@@ -37,7 +37,7 @@ functions:
 
   promatch-create-auth-token:
     name: promatch-create-auth-token
-    handler: cmd/user/promatch-create-auth-token/main
+    handler: cmd/auth/promatch-create-auth-token/main
     events:
       - http:
           path: /auth
