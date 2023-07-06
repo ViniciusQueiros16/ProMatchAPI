@@ -44,3 +44,14 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
+
+  promatch-delete-auth-token:
+    name: promatch-delete-auth-token
+    handler: cmd/auth/promatch-delete-auth-token/main
+    events:
+      - http:
+          path: /auth
+          method: delete
+          cors: true
+    environment: ${self:custom.promatchEnvironment}
+
