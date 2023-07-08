@@ -15,8 +15,11 @@ type ErrorBody struct {
 
 type Users struct {
 	ID        int64
+	Username  string
 	Name      string
 	Email     string
 	Password  string
 	CreatedAt time.Time
+	UpdatedAt *time.Time
+	DeletedAt *time.Time
 }
