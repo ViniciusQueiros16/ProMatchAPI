@@ -30,6 +30,7 @@ deploy:
     - apt-get install -y nodejs
     - npm install -g serverless
     - serverless plugin install -n serverless-dotenv-plugin
+    - serverless plugin install -n serverless-offline
   script:
     - serverless deploy --stage production
   only:
