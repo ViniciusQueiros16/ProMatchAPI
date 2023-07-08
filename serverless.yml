@@ -55,3 +55,13 @@ functions:
           method: delete
           cors: true
     environment: ${self:custom.promatchEnvironment}
+
+  promatch-login-user:
+    name: promatch-login-user
+    handler: cmd/login/promatch-login-user/main
+    events:
+      - http:
+          path: /login
+          method: post
+          cors: true
+    environment: ${self:custom.promatchEnvironment}

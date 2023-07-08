@@ -7,8 +7,7 @@ import (
 	"time"
 
 	users "github.com/promatch/cmd/Users"
-	
-	"github.com/promatch/cmd/login"
+
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/structs"
 )
@@ -20,19 +19,6 @@ func main() {
 		log.Fatal(err)
 	}
 	defer database.CloseDB()
-
-	//----------------------------------
-
-	log.SetPrefix("greetings: ")
-	log.SetFlags(0)
-
-	message, err := login.Hello("Vinny")
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(message)
 
 	//----------------Buscar user pelo nome------------------
 

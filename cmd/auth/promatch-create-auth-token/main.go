@@ -1,4 +1,4 @@
-package main
+package authToken
 
 import (
 	"context"
@@ -18,10 +18,6 @@ import (
 	"github.com/promatch/pkg/utils/response"
 	"github.com/promatch/structs"
 )
-
-type ErrorBody struct {
-	ErrorMsg *string `json:"error,omitempty"`
-}
 
 const (
 	tokenLength      = 64
@@ -75,7 +71,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	var user structs.Users
 	err = json.Unmarshal([]byte(request.Body), &user)
 	if err != nil {
-		return response.ApiResponse(http.StatusBadRequest, ErrorBody{
+		return response.ApiResponse(http.StatusBadRequest, structs.ErrorBody{
 			ErrorMsg: aws.String(err.Error()),
 		})
 	}
