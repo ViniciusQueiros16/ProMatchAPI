@@ -9,6 +9,11 @@ type AuthToken struct {
 	ExpiresAt time.Time
 }
 
+type AuthRequest struct {
+	UsernameOrEmail string `json:"usernameOrEmail"`
+	Password        string `json:"password"`
+}
+
 type ErrorBody struct {
 	ErrorMsg *string `json:"error,omitempty"`
 }
