@@ -6,6 +6,7 @@ provider:
   region: us-east-2
 
 plugins:
+  - serverless-offline
   - serverless-dotenv-plugin
 useDotenv: true
 
@@ -54,4 +55,3 @@ functions:
           method: delete
           cors: true
     environment: ${self:custom.promatchEnvironment}
-
