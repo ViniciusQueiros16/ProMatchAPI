@@ -8,4 +8,5 @@ require (
 	github.com/fnproject/fdk-go v0.0.33
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/tencentyun/scf-go-lib v0.0.0-20211123032342-f972dcd16ff6
+	golang.org/x/crypto v0.11.0
 )
