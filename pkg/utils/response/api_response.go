@@ -2,7 +2,6 @@ package response
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 )
@@ -20,6 +19,5 @@ func ApiResponse(status int, body interface{}) (events.APIGatewayProxyResponse, 
 
 	stringBody, _ := json.Marshal(body)
 	resp.Body = string(stringBody)
-	fmt.Println(resp)
 	return resp, nil
 }
