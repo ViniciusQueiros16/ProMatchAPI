@@ -12,11 +12,17 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
+	authToken "github.com/promatch/cmd/auth/promatch-create-auth-token"
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/pkg/utils/response"
 	"github.com/promatch/structs"
 	"golang.org/x/crypto/bcrypt"
 )
+
+type UserResponse struct {
+	Token    string `json:"token"`
+	Username string `json:"username"`
+}
 
 func CreateUser(db *sql.DB, user structs.Users) (int64, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
@@ -62,12 +68,18 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	user.CreatedAt = time.Now()
 
 	userID, err := CreateUser(db, user)
+	authToken, err := authToken.CreateAuthToken(db, userID)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("ID of added user: %v\n", userID)
 
-	return response.ApiResponse(http.StatusCreated, userID)
+	userResponse := UserResponse{
+		Token:    authToken.Token,
+		Username: user.Username,
+	}
+
+	return response.ApiResponse(http.StatusCreated, userResponse)
 }
 
 func main() {
