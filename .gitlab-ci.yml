@@ -31,7 +31,9 @@ deploy:
     - npm install -g serverless
     - serverless plugin install -n serverless-dotenv-plugin
     - serverless plugin install -n serverless-offline
+    - serverless plugin install -n serverless-go-build
   script:
+    - serverless build
     - serverless deploy --stage production
   only:
     - master
