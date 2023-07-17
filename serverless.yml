@@ -18,6 +18,9 @@ custom:
   promatchEnvironment:
     DBPASS: ${env:DBPASS}
     DBUSER: ${env:DBUSER}
+  go-build:
+    awsbuildPrefix: 'GOOS=linux GOARCH=amd64 CGO_ENABLED=0 '
+    binPath: 'build'
 
 functions:
   promatch-view-user:
