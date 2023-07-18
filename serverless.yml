@@ -6,19 +6,26 @@ provider:
   region: us-east-2
 
 plugins:
+  - serverless-go-build
   - serverless-offline
   - serverless-dotenv-plugin
 useDotenv: true
+
+package:
+  individually: true
 
 custom:
   promatchEnvironment:
     DBPASS: ${env:DBPASS}
     DBUSER: ${env:DBUSER}
+  go-build:
+    awsbuildPrefix: 'GOOS=linux GOARCH=amd64 CGO_ENABLED=0 '
+    binPath: 'build'
 
 functions:
   promatch-view-user:
     name: promatch-view-user
-    handler: cmd/user/promatch-view-user/main
+    handler: cmd/user/promatch-view-user/main.go
     events:
       - http:
           path: /users
@@ -28,7 +35,7 @@ functions:
 
   promatch-create-user:
     name: promatch-create-user
-    handler: cmd/user/promatch-create-user/main
+    handler: cmd/user/promatch-create-user/main.go
     events:
       - http:
           path: /users
@@ -38,7 +45,7 @@ functions:
 
   promatch-create-auth-token:
     name: promatch-create-auth-token
-    handler: cmd/auth/promatch-create-auth-token/main
+    handler: cmd/auth/promatch-create-auth-token/main.go
     events:
       - http:
           path: /auth
@@ -48,7 +55,7 @@ functions:
 
   promatch-delete-auth-token:
     name: promatch-delete-auth-token
-    handler: cmd/auth/promatch-delete-auth-token/main
+    handler: cmd/auth/promatch-delete-auth-token/main.go
     events:
       - http:
           path: /auth
@@ -58,7 +65,7 @@ functions:
 
   promatch-login-user:
     name: promatch-login-user
-    handler: cmd/login/promatch-login-user/main
+    handler: cmd/login/promatch-login-user/main.go
     events:
       - http:
           path: /login
