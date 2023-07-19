@@ -11,20 +11,17 @@ plugins:
   - serverless-dotenv-plugin
 useDotenv: true
 
-package:
-  individually: true
-
 custom:
   promatchEnvironment:
     DBPASS: ${env:DBPASS}
     DBUSER: ${env:DBUSER}
   go-build:
-    awsbuildPrefix: 'GOOS=linux GOARCH=amd64 CGO_ENABLED=0 '
-    binPath: 'build'
+    awsbuildPrefix: "GOOS=linux GOARCH=amd64 CGO_ENABLED=0 "
+    buildCmd: go build -o %2 %1
+    binPath: ""
 
 functions:
   promatch-view-user:
-    name: promatch-view-user
     handler: cmd/user/promatch-view-user/main.go
     events:
       - http:
@@ -32,9 +29,9 @@ functions:
           method: get
           cors: true
     environment: ${self:custom.promatchEnvironment}
+    logGroupName: /aws/lambda/promatchstaging-view-user
 
   promatch-create-user:
-    name: promatch-create-user
     handler: cmd/user/promatch-create-user/main.go
     events:
       - http:
@@ -42,9 +39,9 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
+    logGroupName: /aws/lambda/promatchstaging-create-user
 
   promatch-create-auth-token:
-    name: promatch-create-auth-token
     handler: cmd/auth/promatch-create-auth-token/main.go
     events:
       - http:
@@ -52,9 +49,9 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
+    logGroupName: /aws/lambda/promatchstaging-create-auth-token
 
   promatch-delete-auth-token:
-    name: promatch-delete-auth-token
     handler: cmd/auth/promatch-delete-auth-token/main.go
     events:
       - http:
@@ -62,9 +59,9 @@ functions:
           method: delete
           cors: true
     environment: ${self:custom.promatchEnvironment}
+    logGroupName: /aws/lambda/promatchstaging-delete-auth-token
 
   promatch-login-user:
-    name: promatch-login-user
     handler: cmd/login/promatch-login-user/main.go
     events:
       - http:
@@ -72,3 +69,4 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
+    logGroupName: /aws/lambda/promatchstaging-login-user.go
