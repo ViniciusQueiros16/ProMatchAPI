@@ -4,6 +4,7 @@ provider:
   name: aws
   runtime: go1.x
   region: us-east-2
+  stage: ${opt:stage, 'dev'}
 
 plugins:
   - serverless-go-build
@@ -21,7 +22,7 @@ custom:
     binPath: ""
 
 functions:
-  promatch-view-user:
+  view-user:
     handler: cmd/user/promatch-view-user/main.go
     events:
       - http:
@@ -29,9 +30,8 @@ functions:
           method: get
           cors: true
     environment: ${self:custom.promatchEnvironment}
-    logGroupName: /aws/lambda/promatchstaging-view-user
 
-  promatch-create-user:
+  create-user:
     handler: cmd/user/promatch-create-user/main.go
     events:
       - http:
@@ -39,9 +39,8 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
-    logGroupName: /aws/lambda/promatchstaging-create-user
 
-  promatch-create-auth-token:
+  create-auth-token:
     handler: cmd/auth/promatch-create-auth-token/main.go
     events:
       - http:
@@ -49,9 +48,8 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
-    logGroupName: /aws/lambda/promatchstaging-create-auth-token
 
-  promatch-delete-auth-token:
+  delete-auth-token:
     handler: cmd/auth/promatch-delete-auth-token/main.go
     events:
       - http:
@@ -59,9 +57,8 @@ functions:
           method: delete
           cors: true
     environment: ${self:custom.promatchEnvironment}
-    logGroupName: /aws/lambda/promatchstaging-delete-auth-token
 
-  promatch-login-user:
+  login-user:
     handler: cmd/login/promatch-login-user/main.go
     events:
       - http:
@@ -69,4 +66,3 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
-    logGroupName: /aws/lambda/promatchstaging-login-user.go
