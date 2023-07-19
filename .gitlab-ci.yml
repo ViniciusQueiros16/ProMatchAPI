@@ -1,37 +1,21 @@
 stages:
-  - build
   - deploy
 variables:
   AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
   AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
 
-build:
-  stage: build
-  image: golang:1.16
-  script:
-    - go mod download
-    - go build -o promatch-view-user ./cmd/user/promatch-view-user/main.go
-    - go build -o promatch-create-user ./cmd/user/promatch-create-user/main.go
-    - go build -o promatch-create-auth-token ./cmd/auth/promatch-create-auth-token/main.go
-    - go build -o promatch-delete-auth-token ./cmd/auth/promatch-delete-auth-token/main.go
-  artifacts:
-    paths:
-      - promatch-view-user
-      - promatch-create-user
-      - promatch-create-auth-token
-      - promatch-delete-auth-token
+before_script:
+  - apt-get update && apt-get install -y curl
+  - curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+  - apt-get install -y nodejs
+  - npm install -g serverless
+  - serverless plugin install -n serverless-dotenv-plugin
+  - serverless plugin install -n serverless-offline
+  - serverless plugin install -n serverless-go-build
 
 deploy:
   stage: deploy
   image: node:14
-  before_script:
-    - apt-get update && apt-get install -y curl
-    - curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
-    - apt-get install -y nodejs
-    - npm install -g serverless
-    - serverless plugin install -n serverless-dotenv-plugin
-    - serverless plugin install -n serverless-offline
-    - serverless plugin install -n serverless-go-build
   script:
     - serverless deploy --stage production
   only:
