@@ -6,14 +6,14 @@ variables:
 
 before_script:
   - apt-get update && apt-get install -y curl
-  - curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+  - curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
   - apt-get install -y nodejs
   - npm install -g serverless
   - serverless plugin install -n serverless-dotenv-plugin
   - serverless plugin install -n serverless-offline
   - serverless plugin install -n serverless-go-build
 
-deploy:
+deploy_prod:
   stage: deploy
   image: node:14
   script:
