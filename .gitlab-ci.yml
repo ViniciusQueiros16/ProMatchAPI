@@ -1,4 +1,5 @@
 stages:
+  - build
   - deploy
 variables:
   AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
@@ -12,6 +13,20 @@ before_script:
   - serverless plugin install -n serverless-dotenv-plugin
   - serverless plugin install -n serverless-offline
   - serverless plugin install -n serverless-go-build
+
+build:
+  stage: build
+  image: node:14
+  script:
+    - serverless build
+
+deploy_dev:
+  stage: deploy
+  image: node:14
+  script:
+    - serverless deploy --stage dev
+  only:
+    - dev
 
 deploy_prod:
   stage: deploy
