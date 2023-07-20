@@ -40,6 +40,25 @@ functions:
           cors: true
     environment: ${self:custom.promatchEnvironment}
 
+  update-user:
+    handler: cmd/user/promatch-update-user/main.go
+    events:
+      - http:
+          path: /users
+          method: put
+          cors: true
+    environment: ${self:custom.promatchEnvironment}
+
+  delete-user:
+    handler: cmd/user/promatch-delete-user/main.go
+    events:
+      - http:
+          path: /users
+          method: delete
+          cors: true
+    environment: ${self:custom.promatchEnvironment}
+
+
   create-auth-token:
     handler: cmd/auth/promatch-create-auth-token/main.go
     events:
