@@ -23,7 +23,7 @@ build:
   
 deploy_dev:
   stage: deploy
-  image: node:14
+  image: node:18
   script:
     - serverless deploy --stage dev
   only:
@@ -31,7 +31,7 @@ deploy_dev:
 
 deploy_prod:
   stage: deploy
-  image: node:14
+  image: node:18
   script:
     - serverless deploy --stage production
   only:
