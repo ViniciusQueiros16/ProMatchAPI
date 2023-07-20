@@ -16,10 +16,11 @@ before_script:
 
 build:
   stage: build
-  image: node:14
+  image: golang:latest 
   script:
+    - go version 
     - serverless build
-
+  
 deploy_dev:
   stage: deploy
   image: node:14
