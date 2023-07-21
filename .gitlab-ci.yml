@@ -1,5 +1,4 @@
 stages:
-  - build
   - deploy
 variables:
   AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
@@ -14,25 +13,22 @@ before_script:
   - serverless plugin install -n serverless-offline
   - serverless plugin install -n serverless-go-build
 
-build:
-  stage: build
+deploy_dev:
+  stage: deploy
   image: golang:latest 
   script:
     - go version 
     - serverless build
-  
-deploy_dev:
-  stage: deploy
-  image: node:18
-  script:
     - serverless deploy --stage dev
   only:
     - dev
 
 deploy_prod:
   stage: deploy
-  image: node:18
+  image: golang:latest 
   script:
+    - go version 
+    - serverless build
     - serverless deploy --stage production
   only:
     - master

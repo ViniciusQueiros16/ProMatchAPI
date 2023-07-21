@@ -18,8 +18,7 @@ custom:
     DBUSER: ${env:DBUSER}
   go-build:
     awsbuildPrefix: "GOOS=linux GOARCH=amd64 CGO_ENABLED=0 "
-    buildCmd: go build -o %2 %1
-    binPath: ""
+    binPath: "build"
 
 functions:
   view-user:
