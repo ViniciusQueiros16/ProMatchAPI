@@ -84,3 +84,12 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
+
+  view-user-profile:
+    handler: cmd/user/promatch-view-user-profile/main.go
+    events:
+      - http:
+          path: /users/profile
+          method: get
+          cors: true
+    environment: ${self:custom.promatchEnvironment}
