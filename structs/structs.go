@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"encoding/json"
 	"time"
 )
 
@@ -42,6 +43,31 @@ type Profile struct {
 }
 
 type UserProfile struct {
-    Users   `json:"user"`
-    Profile `json:"profile"`
+	Users   `json:"user"`
+	Profile `json:"profile"`
+}
+
+//Functions
+
+func (up UserProfile) MarshalJSON() ([]byte, error) {
+	type Alias UserProfile
+	return json.Marshal(&struct {
+		UserID    int64     `json:"id_user"`
+		Username  string    `json:"username"`
+		Name      string    `json:"name"`
+		Email     string    `json:"email"`
+		Avatar    string    `json:"avatar"`
+		Birthdate time.Time `json:"birthdate"`
+		Company   string    `json:"company"`
+		Gender    string    `json:"gender"`
+	}{
+		UserID:    int64(up.UserID),
+		Username:  up.Username,
+		Name:      up.Name,
+		Email:     up.Email,
+		Avatar:    up.Avatar,
+		Birthdate: up.Birthdate,
+		Company:   up.Company,
+		Gender:    up.Gender,
+	})
 }
