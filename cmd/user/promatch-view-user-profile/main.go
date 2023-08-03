@@ -14,17 +14,17 @@ import (
 	"github.com/promatch/structs"
 )
 
-func FetchUserProfile(db *sql.DB, username string) (structs.UserProfile, error) {
+func FetchUserProfile(db *sql.DB, usernameOrEmail string) (structs.UserProfile, error) {
 	var userProfile structs.UserProfile
 
 	query := `
 		SELECT u.id, u.name, u.username, u.email, p.avatar, p.birthdate, p.company, p.gender
 		FROM users u
 		LEFT JOIN profile p ON u.id = p.id_user
-		WHERE u.username = ? LIMIT 1;
+		WHERE u.username = ? OR u.email = ? LIMIT 1;
 	`
 
-	row := db.QueryRow(query, username)
+	row := db.QueryRow(query, usernameOrEmail,usernameOrEmail)
 
 	var birthdate sql.NullTime
 
@@ -54,9 +54,9 @@ func handler(ctc context.Context, request events.APIGatewayProxyRequest) (events
 	}
 	defer database.CloseDB()
 
-	username := request.QueryStringParameters["username"]
+	usernameOrEmail := request.QueryStringParameters["usernameOrEmail"]
 
-	result, err := FetchUserProfile(db, username)
+	result, err := FetchUserProfile(db, usernameOrEmail)
 	if err != nil {
 		return response.ApiResponse(http.StatusBadRequest, structs.ErrorBody{
 			ErrorMsg: aws.String(err.Error()),
