@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -14,17 +15,17 @@ import (
 	"github.com/promatch/structs"
 )
 
-func FetchUserProfile(db *sql.DB, usernameOrEmail string) (structs.UserProfile, error) {
+func FetchUserProfile(db *sql.DB, id int64) (structs.UserProfile, error) {
 	var userProfile structs.UserProfile
 
 	query := `
 		SELECT u.id, u.name, u.username, u.email, p.avatar, p.birthdate, p.company, p.gender
 		FROM users u
 		LEFT JOIN profile p ON u.id = p.id_user
-		WHERE u.username = ? OR u.email = ? LIMIT 1;
+		WHERE u.id = ?  LIMIT 1;
 	`
 
-	row := db.QueryRow(query, usernameOrEmail,usernameOrEmail)
+	row := db.QueryRow(query, id)
 
 	var birthdate sql.NullTime
 
@@ -54,9 +55,16 @@ func handler(ctc context.Context, request events.APIGatewayProxyRequest) (events
 	}
 	defer database.CloseDB()
 
-	usernameOrEmail := request.QueryStringParameters["usernameOrEmail"]
+	userIDStr := request.QueryStringParameters["userID"]
+	userID, err := strconv.ParseInt(userIDStr, 10, 64)
 
-	result, err := FetchUserProfile(db, usernameOrEmail)
+	if err != nil {
+		return response.ApiResponse(http.StatusBadRequest, structs.ErrorBody{
+			ErrorMsg: aws.String("Invalid userID format: must be an integer"),
+		})
+	}
+
+	result, err := FetchUserProfile(db, userID)
 	if err != nil {
 		return response.ApiResponse(http.StatusBadRequest, structs.ErrorBody{
 			ErrorMsg: aws.String(err.Error()),
