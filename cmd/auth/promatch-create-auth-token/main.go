@@ -2,40 +2,43 @@ package authToken
 
 import (
 	"context"
-	"crypto/rand"
 	"database/sql"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/pkg/utils/response"
 	"github.com/promatch/structs"
 )
 
-const (
-	tokenLength      = 64
-	tokenExpiryHours = 24
-)
+const tokenExpiryHours = 24
 
-func GenerateAuthToken() (string, error) {
-	tokenBytes := make([]byte, tokenLength)
-	_, err := rand.Read(tokenBytes)
+var secretKey = []byte(os.Getenv("SECRET_KEY"))
+
+func GenerateAuthToken(userID int64) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"user_id": userID,
+		"exp":     time.Now().Add(time.Hour * tokenExpiryHours).Unix(),
+	})
+
+	tokenString, err := token.SignedString(secretKey)
 	if err != nil {
 		return "", fmt.Errorf("GenerateAuthToken: %w", err)
 	}
-	token := base64.URLEncoding.EncodeToString(tokenBytes)
-	return token, nil
+
+	return tokenString, nil
 }
 
 func CreateAuthToken(db *sql.DB, userID int64) (structs.AuthToken, error) {
-	token, err := GenerateAuthToken()
+	token, err := GenerateAuthToken(userID)
 	if err != nil {
 		return structs.AuthToken{}, fmt.Errorf("CreateAuthToken: %w", err)
 	}
