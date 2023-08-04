@@ -18,11 +18,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthResponse struct {
-	Token    string `json:"token"`
-	Username string `json:"username"`
-}
-
 func AuthenticateUser(db *sql.DB, usernameOrEmail, password string) (int64, error) {
 	var user structs.Users
 	query := "SELECT id, password FROM users WHERE username = ? OR email = ?"
@@ -70,12 +65,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 	fmt.Printf("Token created: %v\n", authToken.Token)
 
-	authResponse := AuthResponse{
-		Token:    authToken.Token,
-		Username: authRequest.UsernameOrEmail,
-	}
-
-	return response.ApiResponse(http.StatusCreated, authResponse)
+	return response.ApiResponse(http.StatusCreated, authToken)
 }
 
 func main() {
