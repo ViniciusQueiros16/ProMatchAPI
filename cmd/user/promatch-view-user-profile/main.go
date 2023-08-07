@@ -5,13 +5,13 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/pkg/utils/response"
+	"github.com/promatch/pkg/utils/token"
 	"github.com/promatch/structs"
 )
 
@@ -46,7 +46,7 @@ func FetchUserProfile(db *sql.DB, id int64) (structs.UserProfile, error) {
 	return userProfile, nil
 }
 
-func handler(ctc context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	db, err := database.InitDB()
 	if err != nil {
 		return response.ApiResponse(http.StatusInternalServerError, structs.ErrorBody{
@@ -55,12 +55,14 @@ func handler(ctc context.Context, request events.APIGatewayProxyRequest) (events
 	}
 	defer database.CloseDB()
 
-	userIDStr := request.QueryStringParameters["userID"]
-	userID, err := strconv.ParseInt(userIDStr, 10, 64)
+	tokenString := request.QueryStringParameters["token"]
 
+	// Decode the token to get the user ID
+	userID, err := token.DecodeAuthToken(tokenString)
+	fmt.Println(userID)
 	if err != nil {
 		return response.ApiResponse(http.StatusBadRequest, structs.ErrorBody{
-			ErrorMsg: aws.String("Invalid userID format: must be an integer"),
+			ErrorMsg: aws.String(err.Error()),
 		})
 	}
 
@@ -75,7 +77,6 @@ func handler(ctc context.Context, request events.APIGatewayProxyRequest) (events
 
 	return response.ApiResponse(http.StatusOK, result)
 }
-
 func main() {
 	lambda.Start(handler)
 }
