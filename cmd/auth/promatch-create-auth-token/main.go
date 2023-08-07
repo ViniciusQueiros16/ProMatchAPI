@@ -7,38 +7,21 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/pkg/utils/response"
+	"github.com/promatch/pkg/utils/token"
 	"github.com/promatch/structs"
 )
 
 const tokenExpiryHours = 24
 
-var secretKey = []byte(os.Getenv("SECRET_KEY"))
-
-func GenerateAuthToken(userID int64) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"user_id": userID,
-		"exp":     time.Now().Add(time.Hour * tokenExpiryHours).Unix(),
-	})
-
-	tokenString, err := token.SignedString(secretKey)
-	if err != nil {
-		return "", fmt.Errorf("GenerateAuthToken: %w", err)
-	}
-
-	return tokenString, nil
-}
-
 func CreateAuthToken(db *sql.DB, userID int64) (structs.AuthToken, error) {
-	token, err := GenerateAuthToken(userID)
+	token, err := token.GenerateAuthToken(userID, tokenExpiryHours)
 	if err != nil {
 		return structs.AuthToken{}, fmt.Errorf("CreateAuthToken: %w", err)
 	}
