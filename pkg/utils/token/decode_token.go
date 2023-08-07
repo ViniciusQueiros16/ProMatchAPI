@@ -19,7 +19,9 @@ func DecodeAuthToken(tokenString string) (int64, error) {
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		if userID, ok := claims["user_id"].(int64); ok {
+		if userIDFloat, ok := claims["user_id"].(float64); ok {
+			// Convert the float64 to int64
+			userID := int64(userIDFloat)
 			return userID, nil
 		}
 	}
