@@ -1,5 +1,7 @@
-DROP TABLE IF EXISTS auth_tokens;
-DROP TABLE IF EXISTS users;
+-- DROP TABLE IF EXISTS auth_tokens;
+-- DROP TABLE IF EXISTS profile;
+-- DROP TABLE IF EXISTS posts;
+-- DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) UNIQUE,
@@ -12,10 +14,10 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (username, name, email, password) VALUES
-    ('silsil','Silvio', 'silvio@example.com', 'senha1'),
-    ('Tony','Antônio', 'tony@example.com', 'senha2'),
-    ('Lu','Luciana', 'luciana@example.com', 'senha3'),
-    ('Sami','Samara', 'samara@example.com', 'senha4');
+    ('silsil','Silvio', 'silvio@example.com', '$2a$10$8yaLfN1mVcQZcMis149VZesprNumE0ULCaxKvM2P8mXuZ5eWTkzVG'),
+    ('Tony','Antônio', 'tony@example.com', '$2a$10$8yaLfN1mVcQZcMis149VZesprNumE0ULCaxKvM2P8mXuZ5eWTkzVG'),
+    ('Lu','Luciana', 'luciana@example.com', '$2a$10$8yaLfN1mVcQZcMis149VZesprNumE0ULCaxKvM2P8mXuZ5eWTkzVG'),
+    ('Sami','Samara', 'samara@example.com', '$2a$10$8yaLfN1mVcQZcMis149VZesprNumE0ULCaxKvM2P8mXuZ5eWTkzVG');
 
 
 
@@ -31,7 +33,7 @@ CREATE TABLE auth_tokens (
 
 CREATE TABLE profile (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_user INT NOT NULL,
+    user_id INT NOT NULL,
     avatar VARCHAR(255),
     birthdate DATE,
     company VARCHAR(100),
@@ -39,13 +41,33 @@ CREATE TABLE profile (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,
-    FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 
-INSERT INTO profile (id_user, avatar, birthdate, company, gender, created_at)
+INSERT INTO profile (user_id, avatar, birthdate, company, gender, created_at)
 VALUES
     (1, 'https://avatars.githubusercontent.com/ViniciusQueiros16', '1990-06-15', 'ABC Company', 'Male', NOW()),
     (2, 'https://avatars.githubusercontent.com/ViniciusQueiros16', '1985-12-25', 'XYZ Corporation', 'Female', NOW()),
     (3, 'https://avatars.githubusercontent.com/ViniciusQueiros16', '1998-03-10', 'Sample Corp', 'Other', NOW());
+
+
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    message TEXT,
+    image_url VARCHAR(255),
+    communityType VARCHAR(50),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+
+INSERT INTO posts (user_id, message, image_url, communityType)
+VALUES
+    (1, 'Primeiro post! #início',
+     'https://img.freepik.com/fotos-gratis/respingo-colorido-abstrato-3d-background-generativo-ai-background_60438-2509.jpg?w=1480&t=st=1692138193~exp=1692138793~hmac=ada296c954bf989dad8a4f484b363e0a73b9d8a54fa0e2ff87cc69393025e1c3', 'AnyOne'),
+    (2, 'Olá mundo! #saudações', 'https://media.istockphoto.com/id/459369173/pt/foto/linda-borboleta-isolado-a-branco.jpg?s=2048x2048&w=is&k=20&c=1WDZr2jioNvgg8ll3CwuCJAKfhZiKUM8W2YNsEF78YQ=', 'Group'),
+    (3, 'Compartilhando uma foto incrível.', 'https://www.istockphoto.com/br/foto/nas-asas-da-liberdade-p%C3%A1ssaros-que-voam-e-correntes-quebradas-conceito-da-carga-gm1141549703-305881902', 'Twitter'),
+    (4, 'Explorando lugares novos.', 'https://avatars.githubusercontent.com/ViniciusQueiros16', 'AnyOne');
 

@@ -30,9 +30,16 @@ type Users struct {
 	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 }
 
+type Post struct {
+	UserID        int64  `json:"user_id"`
+	Message       string `json:"message"`
+	ImageURL      string `json:"image_url"`
+	CommunityType string `json:"community_type"`
+}
+
 type Profile struct {
 	ID        int       `json:"id"`
-	UserID    int       `json:"id_user"`
+	UserID    int       `json:"user_id"`
 	Avatar    string    `json:"avatar"`
 	Birthdate time.Time `json:"birthdate"`
 	Company   string    `json:"company"`
@@ -52,7 +59,7 @@ type UserProfile struct {
 func (up UserProfile) MarshalJSON() ([]byte, error) {
 	type Alias UserProfile
 	return json.Marshal(&struct {
-		UserID    int64     `json:"id_user"`
+		UserID    int64     `json:"user_id"`
 		Username  string    `json:"username"`
 		Name      string    `json:"name"`
 		Email     string    `json:"email"`

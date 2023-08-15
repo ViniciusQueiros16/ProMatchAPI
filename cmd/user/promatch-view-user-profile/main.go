@@ -21,7 +21,7 @@ func FetchUserProfile(db *sql.DB, id int64) (structs.UserProfile, error) {
 	query := `
 		SELECT u.id, u.name, u.username, u.email, p.avatar, p.birthdate, p.company, p.gender
 		FROM users u
-		LEFT JOIN profile p ON u.id = p.id_user
+		LEFT JOIN profile p ON u.id = p.user_id
 		WHERE u.id = ?  LIMIT 1;
 	`
 
