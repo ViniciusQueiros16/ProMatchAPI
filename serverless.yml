@@ -57,7 +57,6 @@ functions:
           cors: true
     environment: ${self:custom.promatchEnvironment}
 
-
   create-auth-token:
     handler: cmd/auth/promatch-create-auth-token/main.go
     events:
@@ -91,5 +90,14 @@ functions:
       - http:
           path: /users/profile
           method: get
+          cors: true
+    environment: ${self:custom.promatchEnvironment}
+
+  create-post:
+    handler: cmd/post/promatch-create-post/main.go
+    events:
+      - http:
+          path: /post
+          method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
