@@ -54,6 +54,18 @@ type UserProfile struct {
 	Profile `json:"profile"`
 }
 
+// ImageRequestBody is the image request body
+type ImageRequestBody struct {
+	FileName string `json:"filename"`
+	Body     string `json:"body"`
+}
+
+// ImageUploadResponse after the image is uploaded
+type ImageUploadResponse struct {
+	FileName string `json:"filename"`
+	Location string `json:"filelocation"`
+}
+
 //Functions
 
 func (up UserProfile) MarshalJSON() ([]byte, error) {
