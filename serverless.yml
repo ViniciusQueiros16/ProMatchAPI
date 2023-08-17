@@ -5,6 +5,11 @@ provider:
   runtime: go1.x
   region: us-east-2
   stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "arn:aws:s3:::${self:custom.imageUploadBucket}/*"
 
 plugins:
   - serverless-go-build
@@ -19,6 +24,7 @@ custom:
   go-build:
     awsbuildPrefix: "GOOS=linux GOARCH=amd64 CGO_ENABLED=0 "
     binPath: "build"
+  imageUploadBucket: ${env:BUCKET_NAME}
 
 functions:
   view-user:
@@ -101,3 +107,20 @@ functions:
           method: post
           cors: true
     environment: ${self:custom.promatchEnvironment}
+
+  uploadImage:
+    handler: cmd/uploadImage/main.go
+    events:
+      - http:
+          path: /uploadImage
+          method: post
+          cors: true
+    memorySize: 128
+
+resources:
+  Resources:
+    ImageUploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.imageUploadBucket}
+        AccessControl: BucketOwnerFullControl

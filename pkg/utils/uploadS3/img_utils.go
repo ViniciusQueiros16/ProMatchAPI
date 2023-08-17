@@ -9,7 +9,7 @@ import (
 	"github.com/promatch/structs"
 )
 
-func imageUpload(bodyRequest *structs.ImageRequestBody, data []byte) structs.ImageUploadResponse {
+func ImageUpload(bodyRequest *structs.ImageRequestBody, data []byte) structs.ImageUploadResponse {
 	tmpFileName := fmt.Sprintf(`/tmp/%s`, bodyRequest.FileName)
 
 	fileErr := ioutil.WriteFile(tmpFileName, []byte(data), 0644)

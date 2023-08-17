@@ -13,7 +13,7 @@ import (
 
 func uploadToS3Bucket(file io.Reader, fileName string) structs.ImageUploadResponse {
 
-	bucketName := os.Getenv("bucket_name")
+	bucketName := os.Getenv("BUCKET_NAME")
 	region := "us-east-2"
 
 	//select Region to use.
