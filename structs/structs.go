@@ -33,7 +33,7 @@ type Users struct {
 type Post struct {
 	UserID        int64  `json:"user_id"`
 	Message       string `json:"message"`
-	ImageURL      string `json:"image_url"`
+	Image         string `json:"image_url"`
 	CommunityType string `json:"community_type"`
 }
 
@@ -54,13 +54,11 @@ type UserProfile struct {
 	Profile `json:"profile"`
 }
 
-// ImageRequestBody is the image request body
 type ImageRequestBody struct {
 	FileName string `json:"filename"`
 	Body     string `json:"body"`
 }
 
-// ImageUploadResponse after the image is uploaded
 type ImageUploadResponse struct {
 	FileName string `json:"filename"`
 	Location string `json:"filelocation"`

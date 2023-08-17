@@ -1,20 +1,25 @@
 package uploadS3
 
 import (
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+
 	"github.com/promatch/structs"
 )
 
-func ImageUpload(bodyRequest *structs.ImageRequestBody, data []byte) structs.ImageUploadResponse {
-	tmpFileName := fmt.Sprintf(`/tmp/%s`, bodyRequest.FileName)
+func ImageUpload(fileName string, data string) structs.ImageUploadResponse {
 
-	fileErr := ioutil.WriteFile(tmpFileName, []byte(data), 0644)
+	decoded, _ := base64.StdEncoding.DecodeString(data)
+
+	tmpFileName := fmt.Sprintf(`/tmp/%s`, fileName)
+
+	fileErr := ioutil.WriteFile(tmpFileName, []byte(decoded), 0644)
 	if fileErr != nil {
-		log.Fatalf("Failed to save file : %s %v\n", bodyRequest.FileName, fileErr)
+		log.Fatalf("Failed to save file : %s %v\n", fileName, fileErr)
 	}
 	res := UploadImage(tmpFileName)
 	os.Remove(tmpFileName)

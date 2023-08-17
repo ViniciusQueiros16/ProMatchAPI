@@ -10,15 +10,17 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/google/uuid"
 	"github.com/promatch/pkg/database"
 	"github.com/promatch/pkg/utils/response"
+	"github.com/promatch/pkg/utils/uploadS3"
 	"github.com/promatch/structs"
 )
 
 type CreatePostRequest struct {
 	UserID        int64  `json:"user_id"`
 	Message       string `json:"message"`
-	ImageURL      string `json:"image_url"`
+	Image         string `json:"image_url"`
 	CommunityType string `json:"community_type"`
 }
 
@@ -33,7 +35,7 @@ func CreatePost(db *sql.DB, req structs.Post) (int64, error) {
 	}
 	defer stmt.Close()
 
-	result, err := stmt.Exec(req.UserID, req.Message, req.ImageURL, req.CommunityType)
+	result, err := stmt.Exec(req.UserID, req.Message, req.Image, req.CommunityType)
 	if err != nil {
 		return 0, fmt.Errorf("CreatePost: %w", err)
 	}
@@ -56,11 +58,18 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	defer database.CloseDB()
 
 	var req structs.Post
+
 	err = json.Unmarshal([]byte(request.Body), &req)
 	if err != nil {
 		return response.ApiResponse(http.StatusBadRequest, structs.ErrorBody{
 			ErrorMsg: aws.String(err.Error()),
 		})
+	}
+
+	if req.Image != "" {
+		imageUUID := uuid.New().String()
+		resp := uploadS3.ImageUpload(imageUUID, req.Image)
+		req.Image = resp.Location
 	}
 
 	postID, err := CreatePost(db, req)

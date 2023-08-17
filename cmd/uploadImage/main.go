@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/base64"
 	"encoding/json"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -14,7 +13,6 @@ type ResponseToSend events.APIGatewayProxyResponse
 
 func Handler(request events.APIGatewayProxyRequest) (ResponseToSend, error) {
 
-	// Extract the request body
 	bodyRequest := &structs.ImageRequestBody{}
 	err := json.Unmarshal([]byte(request.Body), &bodyRequest)
 
@@ -22,12 +20,7 @@ func Handler(request events.APIGatewayProxyRequest) (ResponseToSend, error) {
 		return ResponseToSend{Body: err.Error(), StatusCode: 404}, nil
 	}
 
-	decoded, err := base64.StdEncoding.DecodeString(bodyRequest.Body)
-	if err != nil {
-		return ResponseToSend{Body: err.Error(), StatusCode: 404}, nil
-	}
-
-	resp := uploadS3.ImageUpload(bodyRequest, decoded)
+	resp := uploadS3.ImageUpload(bodyRequest.FileName, bodyRequest.Body)
 
 	response, err := json.Marshal(&resp)
 	if err != nil {
@@ -42,7 +35,6 @@ func Handler(request events.APIGatewayProxyRequest) (ResponseToSend, error) {
 		Body: string(response),
 	}
 
-	//Returning response with AWS Lambda Proxy Response
 	return respToSend, nil
 }
 

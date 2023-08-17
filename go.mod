@@ -10,4 +10,7 @@ require (
 	golang.org/x/crypto v0.11.0
 )
 
-require github.com/jmespath/go-jmespath v0.4.0 // indirect
+require (
+	github.com/google/uuid v1.3.0
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+)
