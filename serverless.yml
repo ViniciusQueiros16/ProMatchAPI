@@ -21,6 +21,7 @@ custom:
   promatchEnvironment:
     DBPASS: ${env:DBPASS}
     DBUSER: ${env:DBUSER}
+    BUCKET_NAME: ${env:BUCKET_NAME}
   go-build:
     awsbuildPrefix: "GOOS=linux GOARCH=amd64 CGO_ENABLED=0 "
     binPath: "build"
