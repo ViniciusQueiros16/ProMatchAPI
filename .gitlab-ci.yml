@@ -1,5 +1,6 @@
 stages:
   - deploy
+
 variables:
   AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
   AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
@@ -15,9 +16,10 @@ before_script:
 
 deploy_dev:
   stage: deploy
-  image: golang:latest 
+  image: golang:latest
   script:
-    - go version 
+    - go version
+    - export BUCKET_NAME=$BUCKET_NAME_DEV
     - serverless build
     - serverless deploy --stage dev
   only:
@@ -25,9 +27,10 @@ deploy_dev:
 
 deploy_prod:
   stage: deploy
-  image: golang:latest 
+  image: golang:latest
   script:
-    - go version 
+    - go version
+    - export BUCKET_NAME=$BUCKET_NAME_PROD
     - serverless build
     - serverless deploy --stage production
   only:
