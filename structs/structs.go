@@ -31,10 +31,12 @@ type Users struct {
 }
 
 type Post struct {
+	ID            int    `json:"id"`
 	UserID        int64  `json:"user_id"`
 	Message       string `json:"message"`
 	Image         string `json:"image_url"`
 	CommunityType string `json:"community_type"`
+	Timestamp     string `json:"timestamp"`
 }
 
 type Profile struct {

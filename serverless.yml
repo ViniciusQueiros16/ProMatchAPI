@@ -109,6 +109,15 @@ functions:
           cors: true
     environment: ${self:custom.promatchEnvironment}
 
+  view-posts:
+    handler: cmd/post/promatch-view-posts/main.go
+    events:
+      - http:
+          path: /post
+          method: get
+          cors: true
+    environment: ${self:custom.promatchEnvironment}
+
   uploadImage:
     handler: cmd/uploadImage/main.go
     events:
