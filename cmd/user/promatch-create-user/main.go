@@ -37,17 +37,28 @@ func CreateUser(db *sql.DB, user structs.Users) (int64, error) {
 	defer stmt.Close()
 
 	result, err := stmt.Exec(user.Username, user.Name, user.Email, string(hashedPassword), user.CreatedAt)
-
 	if err != nil {
 		return 0, fmt.Errorf("CreateUser: %w", err)
 	}
 
-	id, err := result.LastInsertId()
+	userID, err := result.LastInsertId()
 	if err != nil {
 		return 0, fmt.Errorf("CreateUser: %w", err)
 	}
 
-	return id, nil
+	// Create a profile entry for the user
+	profileStmt, err := db.Prepare("INSERT INTO profile(user_id) VALUES (?)")
+	if err != nil {
+		return 0, fmt.Errorf("CreateUser: %w", err)
+	}
+	defer profileStmt.Close()
+
+	_, err = profileStmt.Exec(userID)
+	if err != nil {
+		return 0, fmt.Errorf("CreateUser: %w", err)
+	}
+
+	return userID, nil
 }
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
