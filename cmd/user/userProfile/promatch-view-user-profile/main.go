@@ -59,7 +59,6 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 
 	// Decode the token to get the user ID
 	userID, err := token.DecodeAuthToken(tokenString)
-	fmt.Println(userID)
 	if err != nil {
 		return response.ApiResponse(http.StatusBadRequest, structs.ErrorBody{
 			ErrorMsg: aws.String(err.Error()),
