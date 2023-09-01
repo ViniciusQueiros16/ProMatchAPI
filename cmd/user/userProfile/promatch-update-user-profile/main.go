@@ -25,6 +25,10 @@ type UpdateProfileRequest struct {
 	Gender    string `json:"gender"`
 }
 
+type UpdateProfileResponse struct {
+	UserID int64 `json:"userID"`
+}
+
 func UpdateUserProfile(db *sql.DB, userID int64, request UpdateProfileRequest) error {
 	stmt, err := db.Prepare(`
 		UPDATE profile
@@ -84,7 +88,10 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		})
 	}
 
-	return response.ApiResponse(http.StatusOK, userID)
+	responseBody := UpdateProfileResponse{
+		UserID: userID,
+	}
+	return response.ApiResponse(http.StatusOK, responseBody)
 }
 
 func main() {

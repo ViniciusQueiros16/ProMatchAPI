@@ -9,7 +9,6 @@ import (
 func ApiResponse(status int, body interface{}) (events.APIGatewayProxyResponse, error) {
 	resp := events.APIGatewayProxyResponse{
 		Headers: map[string]string{
-			"Content-Type":                 "application/json",
 			"Access-Control-Allow-Origin":  "*",
 			"Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, X-Requested-With",
 			"Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE",
@@ -17,7 +16,11 @@ func ApiResponse(status int, body interface{}) (events.APIGatewayProxyResponse, 
 		StatusCode: status,
 	}
 
-	stringBody, _ := json.Marshal(body)
-	resp.Body = string(stringBody)
+	responseBody, err := json.Marshal(body)
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, err
+	}
+
+	resp.Body = string(responseBody)
 	return resp, nil
 }
