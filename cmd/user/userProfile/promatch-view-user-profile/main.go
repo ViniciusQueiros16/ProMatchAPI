@@ -19,10 +19,11 @@ func FetchUserProfile(db *sql.DB, id int64) (structs.UserProfile, error) {
 	var userProfile structs.UserProfile
 
 	query := `
-		SELECT u.id, u.name, u.username, u.email, p.avatar, p.birthdate, p.company, p.gender
+		SELECT u.id, u.name, u.username, u.email, u.user_type_id, u.verified,
+			p.avatar, p.birthdate, p.company, p.gender, p.about
 		FROM users u
 		LEFT JOIN profile p ON u.id = p.user_id
-		WHERE u.id = ?  LIMIT 1;
+		WHERE u.id = ? LIMIT 1;
 	`
 
 	row := db.QueryRow(query, id)
@@ -31,7 +32,8 @@ func FetchUserProfile(db *sql.DB, id int64) (structs.UserProfile, error) {
 
 	if err := row.Scan(
 		&userProfile.UserID, &userProfile.Name, &userProfile.Username, &userProfile.Email,
-		&userProfile.Avatar, &birthdate, &userProfile.Company, &userProfile.Gender,
+		&userProfile.UserTypeID, &userProfile.Verified, &userProfile.Avatar, &birthdate,
+		&userProfile.Company, &userProfile.Gender, &userProfile.About,
 	); err != nil {
 		if err == sql.ErrNoRows {
 			return structs.UserProfile{}, nil

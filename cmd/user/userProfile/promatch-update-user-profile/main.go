@@ -23,6 +23,7 @@ type UpdateProfileRequest struct {
 	Birthdate string `json:"birthdate"`
 	Company   string `json:"company"`
 	Gender    string `json:"gender"`
+	About     string `json:"about"`
 }
 
 type UpdateProfileResponse struct {
@@ -32,7 +33,7 @@ type UpdateProfileResponse struct {
 func UpdateUserProfile(db *sql.DB, userID int64, request UpdateProfileRequest) error {
 	stmt, err := db.Prepare(`
 		UPDATE profile
-		SET avatar = ?, birthdate = ?, company = ?, gender = ?, updated_at = NOW()
+		SET avatar = ?, birthdate = ?, company = ?, gender = ?, about = ?, updated_at = NOW()
 		WHERE user_id = ?;
 	`)
 	if err != nil {
@@ -40,7 +41,7 @@ func UpdateUserProfile(db *sql.DB, userID int64, request UpdateProfileRequest) e
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(request.Avatar, request.Birthdate, request.Company, request.Gender, userID)
+	_, err = stmt.Exec(request.Avatar, request.Birthdate, request.Company, request.Gender, request.About, userID)
 	if err != nil {
 		return fmt.Errorf("UpdateUserProfile: %w", err)
 	}
