@@ -55,9 +55,10 @@ type Profile struct {
 }
 
 type Matches struct {
-	ID            int `json:"id"`
-	UserID        int `json:"user_id"`
-	MatchedUserID int `json:"matched_user_id"`
+	ID            int  `json:"id"`
+	UserID        int  `json:"user_id"`
+	MatchedUserID int  `json:"matched_user_id"`
+	IsAccepted    bool `json:"is_accepted"`
 }
 
 type UserProfile struct {

@@ -95,7 +95,11 @@ CREATE TABLE matches (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     matched_user_id INT NOT NULL,
+    is_accepted BOOLEAN DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
-    deleted_at TIMESTAMP
+    deleted_at TIMESTAMP,
+    UNIQUE KEY unique_match (user_id, matched_user_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (matched_user_id) REFERENCES users(id) ON DELETE CASCADE
 );
