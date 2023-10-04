@@ -20,13 +20,20 @@ type MatchResponse struct {
 }
 
 func CreateMatch(db *sql.DB, match structs.Matches) (int64, error) {
-	stmt, err := db.Prepare("INSERT INTO matches (user_id, matched_user_id) VALUES (?,?)")
+	stmt, err := db.Prepare(`
+        INSERT INTO matches (user_id, matched_user_id)
+        SELECT ?, ?
+        WHERE NOT EXISTS (
+            SELECT 1 FROM matches
+            WHERE user_id = ? AND matched_user_id = ?
+        )
+    `)
 	if err != nil {
 		return 0, fmt.Errorf("CreateMatch: %w", err)
 	}
 	defer stmt.Close()
 
-	result, err := stmt.Exec(match.UserID, match.MatchedUserID)
+	result, err := stmt.Exec(match.UserID, match.MatchedUserID, match.UserID, match.MatchedUserID)
 	if err != nil {
 		return 0, fmt.Errorf("CreateMatch: %w", err)
 	}
