@@ -127,6 +127,15 @@ functions:
           cors: true
     environment: ${self:custom.promatchEnvironment}
 
+  create-match:
+    handler: cmd/match/promatch-create-match/main.go
+    events:
+      - http:
+          path: /match
+          method: post
+          cors: true
+    environment: ${self:custom.promatchEnvironment}
+
   uploadImage:
     handler: cmd/uploadImage/main.go
     events:

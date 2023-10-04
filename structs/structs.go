@@ -54,6 +54,12 @@ type Profile struct {
 	DeletedAt time.Time `json:"deleted_at,omitempty"`
 }
 
+type Matches struct {
+	ID            int `json:"id"`
+	UserID        int `json:"user_id"`
+	MatchedUserID int `json:"matched_user_id"`
+}
+
 type UserProfile struct {
 	Users   `json:"user"`
 	Profile `json:"profile"`
