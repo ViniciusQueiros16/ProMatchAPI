@@ -20,11 +20,11 @@ INSERT INTO user_types (type_name) VALUES
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) UNIQUE,
-    name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE,
     password VARCHAR(100) NOT NULL,
     user_type_id INT NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
+    privacy_accepted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,
@@ -52,16 +52,19 @@ CREATE TABLE auth_tokens (
 CREATE TABLE profile (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
     avatar VARCHAR(255),
+    cover_photo VARCHAR(255),
+    phone_number VARCHAR(20),
     birthdate DATE,
-    company VARCHAR(100),
     gender VARCHAR(10),
     about TEXT, 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+);;
 
 -- Insert profile data
 INSERT INTO profile (user_id, avatar, birthdate, company, gender, about, created_at)
@@ -69,6 +72,34 @@ VALUES
     (1, 'https://avatars.githubusercontent.com/ViniciusQueiros16', '1990-06-15', 'ABC Company', 'Male', 'About Silvio...', NOW()),
     (2, 'https://avatars.githubusercontent.com/ViniciusQueiros16', '1985-12-25', 'XYZ Corporation', 'Female', 'About Antônio...', NOW()),
     (3, 'https://avatars.githubusercontent.com/ViniciusQueiros16', '1998-03-10', 'Sample Corp', 'Other', 'About Luciana...', NOW());
+
+
+CREATE TABLE user_addresses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    country VARCHAR(100),
+    street_address VARCHAR(255),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    postal_code VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    comments BOOLEAN DEFAULT TRUE,
+    candidates BOOLEAN DEFAULT TRUE,
+    offers BOOLEAN DEFAULT TRUE,
+    sms_delivery_option ENUM('push-everything', 'push-email', 'push-notifications') DEFAULT 'Everything',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 
 -- Create posts table
 CREATE TABLE posts (
