@@ -20,9 +20,8 @@ type ErrorBody struct {
 }
 
 type Users struct {
-	ID         int64      `json:"id"`
-	Username   string     `json:"username"`
-	Name       string     `json:"name"`
+	ID       int64  `json:"id"`
+	Username string `json:"username"`
 	Email      string     `json:"email"`
 	Password   string     `json:"password"`
 	UserTypeID int        `json:"user_type_id"`
@@ -81,9 +80,9 @@ type ImageUploadResponse struct {
 func (up UserProfile) MarshalJSON() ([]byte, error) {
 	type Alias UserProfile
 	return json.Marshal(&struct {
-		UserID     int64     `json:"user_id"`
-		Username   string    `json:"username"`
-		Name       string    `json:"name"`
+		UserID   int64  `json:"user_id"`
+		Username string `json:"username"`
+
 		Email      string    `json:"email"`
 		Avatar     string    `json:"avatar"`
 		Birthdate  time.Time `json:"birthdate"`
@@ -93,9 +92,9 @@ func (up UserProfile) MarshalJSON() ([]byte, error) {
 		Verified   bool      `json:"verified"`
 		About      string    `json:"about"`
 	}{
-		UserID:     int64(up.UserID),
-		Username:   up.Username,
-		Name:       up.Name,
+		UserID:   int64(up.UserID),
+		Username: up.Username,
+
 		Email:      up.Email,
 		Avatar:     up.Avatar,
 		Birthdate:  up.Birthdate,

@@ -19,10 +19,10 @@ type ErrorBody struct {
 	ErrorMsg *string `json:"error,omitempty"`
 }
 
-func FetchUser(db *sql.DB, name string) ([]structs.Users, error) {
+func FetchUser(db *sql.DB, username string) ([]structs.Users, error) {
 	var findUser []structs.Users
 
-	rows, err := db.Query("SELECT * FROM users WHERE name = ?", name)
+	rows, err := db.Query("SELECT * FROM users WHERE username = ?", username)
 	if err != nil {
 		return nil, fmt.Errorf("FetchUser: %w", err)
 	}
@@ -31,7 +31,7 @@ func FetchUser(db *sql.DB, name string) ([]structs.Users, error) {
 	for rows.Next() {
 		var user structs.Users
 		var createdAt []uint8
-		if err := rows.Scan(&user.ID, &user.Name, &user.Email, &user.Password, &createdAt); err != nil {
+		if err := rows.Scan(&user.ID, &user.Email, &user.Password, &createdAt); err != nil {
 			return nil, fmt.Errorf("FetchUser: %w", err)
 		}
 
@@ -52,9 +52,9 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 	defer database.CloseDB()
 
-	name := request.QueryStringParameters["name"]
+	username := request.QueryStringParameters["username"]
 
-	result, err := FetchUser(db, name)
+	result, err := FetchUser(db, username)
 	if err != nil {
 		log.Fatal(err)
 	}

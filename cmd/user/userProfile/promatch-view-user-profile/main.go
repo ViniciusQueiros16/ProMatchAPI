@@ -31,7 +31,7 @@ func FetchUserProfile(db *sql.DB, id int64) (structs.UserProfile, error) {
 	var birthdate sql.NullTime
 
 	if err := row.Scan(
-		&userProfile.UserID, &userProfile.Name, &userProfile.Username, &userProfile.Email,
+		&userProfile.UserID, &userProfile.Username, &userProfile.Email,
 		&userProfile.UserTypeID, &userProfile.Verified, &userProfile.Avatar, &birthdate,
 		&userProfile.Company, &userProfile.Gender, &userProfile.About,
 	); err != nil {

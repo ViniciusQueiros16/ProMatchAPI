@@ -22,7 +22,7 @@ func UpdateUser(db *sql.DB, user structs.Users) error {
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(user.Name, user.Email, user.Password, user.CreatedAt, user.ID)
+	_, err = stmt.Exec(user.Email, user.Password, user.CreatedAt, user.ID)
 	if err != nil {
 		return fmt.Errorf("UpdateUser: %w", err)
 	}
