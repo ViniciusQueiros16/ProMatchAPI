@@ -17,8 +17,8 @@ func InitDB() (*sql.DB, error) {
 		User:                 os.Getenv("DBUSER"),
 		Passwd:               os.Getenv("DBPASS"),
 		Net:                  "tcp",
-		Addr:                 "proposta.cynfirggau4l.us-east-2.rds.amazonaws.com:3306",
-		DBName:               "proposta",
+		Addr:                 fmt.Sprintf("%s:%s", os.Getenv("HOST"), os.Getenv("PORT")),
+		DBName:               os.Getenv("DBNAME"),
 		ParseTime:            true,
 		AllowNativePasswords: true,
 	}

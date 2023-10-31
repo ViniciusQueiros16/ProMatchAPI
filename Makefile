@@ -1,11 +1,18 @@
 .PHONY: build clean deploy
 
-build:
-	env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o bin/hello hello/main.go
-	env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o bin/world world/main.go
-
 clean:
+	go clean
 	rm -rf ./bin
+
+
+build: clean
+	env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o cmd/match/promatch-create-match cmd/match/promatch-create-match/main.go
+	
+
 
 deploy: clean build
 	sls deploy --verbose
+
+
+start:
+	sls offline 

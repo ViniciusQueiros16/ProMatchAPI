@@ -26,6 +26,8 @@ custom:
     awsbuildPrefix: "GOOS=linux GOARCH=amd64 CGO_ENABLED=0 "
     binPath: "build"
   imageUploadBucket: ${env:BUCKET_NAME}
+  serverless-offline:
+    noPrependStageInUrl: true
 
 functions:
   view-user:
