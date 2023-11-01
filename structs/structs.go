@@ -20,15 +20,16 @@ type ErrorBody struct {
 }
 
 type Users struct {
-	ID       int64  `json:"id"`
-	Username string `json:"username"`
-	Email      string     `json:"email"`
-	Password   string     `json:"password"`
-	UserTypeID int        `json:"user_type_id"`
-	Verified   bool       `json:"verified"`
-	CreatedAt  time.Time  `json:"created_at"`
-	UpdatedAt  *time.Time `json:"updated_at,omitempty"`
-	DeletedAt  *time.Time `json:"deleted_at,omitempty"`
+	ID              int64      `json:"id"`
+	Username        string     `json:"username"`
+	Email           string     `json:"email"`
+	Password        string     `json:"password"`
+	UserTypeID      int        `json:"user_type_id"`
+	Verified        bool       `json:"verified"`
+	PrivacyAccepted bool       `json:"privacy_accepted"`
+	CreatedAt       time.Time  `json:"created_at"`
+	UpdatedAt       *time.Time `json:"updated_at,omitempty"`
+	DeletedAt       *time.Time `json:"deleted_at,omitempty"`
 }
 
 type Post struct {

@@ -35,7 +35,7 @@ INSERT INTO users (username, email, password, user_type_id, verified, privacy_ac
 CREATE TABLE auth_tokens (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    token VARCHAR(100) NOT NULL,
+    token VARCHAR(255) NOT NULL,
     expires_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -45,8 +45,8 @@ CREATE TABLE auth_tokens (
 CREATE TABLE profile (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
     avatar VARCHAR(255),
     cover_photo VARCHAR(255),
     phone_number VARCHAR(20),

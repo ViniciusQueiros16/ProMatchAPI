@@ -30,13 +30,14 @@ func CreateUser(db *sql.DB, user structs.Users) (int64, error) {
 		return 0, fmt.Errorf("CreateUser: %w", err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO users(username, name, email, password, created_at) VALUES (?, ?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO users(username, email, password, user_type_id, verified, privacy_accepted) VALUES (?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		return 0, fmt.Errorf("CreateUser: %w", err)
 	}
 	defer stmt.Close()
 
-	result, err := stmt.Exec(user.Username, user.Email, string(hashedPassword), user.CreatedAt)
+	result, err := stmt.Exec(user.Username, user.Email, string(hashedPassword), user.UserTypeID, user.Verified, user.PrivacyAccepted)
+
 	if err != nil {
 		return 0, fmt.Errorf("CreateUser: %w", err)
 	}
