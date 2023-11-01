@@ -30,8 +30,8 @@ func FetchUser(db *sql.DB, username string) ([]structs.Users, error) {
 
 	for rows.Next() {
 		var user structs.Users
-		var createdAt []uint8
-		if err := rows.Scan(&user.ID, &user.Email, &user.Password, &createdAt); err != nil {
+
+		if err := rows.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.UserTypeID, &user.Verified, &user.PrivacyAccepted, &user.CreatedAt, &user.UpdatedAt, &user.DeletedAt); err != nil {
 			return nil, fmt.Errorf("FetchUser: %w", err)
 		}
 
