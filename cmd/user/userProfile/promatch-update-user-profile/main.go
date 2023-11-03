@@ -19,11 +19,14 @@ import (
 )
 
 type UpdateProfileRequest struct {
-	Avatar    string `json:"avatar"`
-	Birthdate string `json:"birthdate"`
-	Company   string `json:"company"`
-	Gender    string `json:"gender"`
-	About     string `json:"about"`
+	Avatar      string `json:"avatar"`
+	Birthdate   string `json:"birthdate"`
+	Gender      string `json:"gender"`
+	About       string `json:"about"`
+	FirstName   string `json:"first_name"`
+	LastName    string `json:"last_name"`
+	CoverPhoto  string `json:"cover_photo"`
+	PhoneNumber string `json:"phone_number"`
 }
 
 type UpdateProfileResponse struct {
@@ -32,16 +35,16 @@ type UpdateProfileResponse struct {
 
 func UpdateUserProfile(db *sql.DB, userID int64, request UpdateProfileRequest) error {
 	stmt, err := db.Prepare(`
-		UPDATE profile
-		SET avatar = ?, birthdate = ?, company = ?, gender = ?, about = ?, updated_at = NOW()
-		WHERE user_id = ?;
+	UPDATE profile
+    SET avatar = ?, birthdate = ?, gender = ?, about = ?, first_name = ?, last_name = ?, cover_photo = ?, phone_number = ?
+    WHERE user_id = ?;
 	`)
 	if err != nil {
 		return fmt.Errorf("UpdateUserProfile: %w", err)
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(request.Avatar, request.Birthdate, request.Company, request.Gender, request.About, userID)
+	_, err = stmt.Exec(request.Avatar, request.Birthdate, request.Gender, request.About, request.FirstName, request.LastName, request.CoverPhoto, request.PhoneNumber, userID)
 	if err != nil {
 		return fmt.Errorf("UpdateUserProfile: %w", err)
 	}
