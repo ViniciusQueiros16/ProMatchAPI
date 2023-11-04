@@ -79,6 +79,30 @@ type ImageUploadResponse struct {
 	Location string `json:"filelocation"`
 }
 
+type UpdateProfileRequest struct {
+	Avatar            string `json:"avatar"`
+	Birthdate         string `json:"birthdate"`
+	Gender            string `json:"gender"`
+	About             string `json:"about"`
+	FirstName         string `json:"first_name"`
+	LastName          string `json:"last_name"`
+	CoverPhoto        string `json:"cover_photo"`
+	PhoneNumber       string `json:"phone_number"`
+	Username          string `json:"username"`
+	Email             string `json:"email"`
+	UserTypeID        int    `json:"user_type_id"`
+	PrivacyAccepted   bool   `json:"privacy_accepted"`
+	Country           string `json:"country"`
+	StreetAddress     string `json:"street_address"`
+	City              string `json:"city"`
+	State             string `json:"state"`
+	PostalCode        string `json:"postal_code"`
+	Comments          bool   `json:"comments"`
+	Candidates        bool   `json:"candidates"`
+	Offers            bool   `json:"offers"`
+	SMSDeliveryOption string `json:"sms_delivery_option"`
+}
+
 //Functions
 
 func (up UserProfile) MarshalJSON() ([]byte, error) {
