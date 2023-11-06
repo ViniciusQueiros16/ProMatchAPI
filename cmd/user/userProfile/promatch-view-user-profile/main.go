@@ -25,6 +25,7 @@ func FetchUserProfile(db *sql.DB, id int64) (structs.UserProfile, error) {
 			u.email,
 			u.user_type_id,
 			u.verified,
+			u.privacy_accepted,
 			p.first_name,
 			p.last_name,
 			p.avatar,
@@ -32,9 +33,20 @@ func FetchUserProfile(db *sql.DB, id int64) (structs.UserProfile, error) {
 			p.phone_number,
 			p.birthdate,
 			p.gender,
-			p.about
+			p.about,
+			ua.country,
+			ua.street_address,
+			ua.city,
+			ua.state,
+			ua.postal_code,
+			n.comments,
+			n.candidates,
+			n.offers,
+			n.sms_delivery_option
 		FROM users u
 		LEFT JOIN profile p ON u.id = p.user_id
+		LEFT JOIN user_addresses ua ON u.id = ua.user_id
+		LEFT JOIN notifications n ON u.id = n.user_id
 		WHERE u.id = ? LIMIT 1;
 	`
 
@@ -44,9 +56,11 @@ func FetchUserProfile(db *sql.DB, id int64) (structs.UserProfile, error) {
 
 	if err := row.Scan(
 		&userProfile.UserID, &userProfile.Username, &userProfile.Email,
-		&userProfile.UserTypeID, &userProfile.Verified, &userProfile.FirstName, &userProfile.LastName,
+		&userProfile.UserTypeID, &userProfile.Verified, &userProfile.PrivacyAccepted, &userProfile.FirstName, &userProfile.LastName,
 		&userProfile.Avatar, &userProfile.CoverPhoto, &userProfile.PhoneNumber, &birthdate,
 		&userProfile.Gender, &userProfile.About,
+		&userProfile.Country, &userProfile.StreetAddress, &userProfile.City, &userProfile.State, &userProfile.PostalCode,
+		&userProfile.Comments, &userProfile.Candidates, &userProfile.Offers, &userProfile.SMSDeliveryOption,
 	); err != nil {
 		if err == sql.ErrNoRows {
 			return structs.UserProfile{}, nil
@@ -86,8 +100,6 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 			ErrorMsg: aws.String(err.Error()),
 		})
 	}
-
-	fmt.Printf("User Profile found: %+v\n", result)
 
 	return response.ApiResponse(http.StatusOK, result)
 }

@@ -65,8 +65,25 @@ type Matches struct {
 }
 
 type UserProfile struct {
-	Users   `json:"user"`
-	Profile `json:"profile"`
+	Users         `json:"user"`
+	Profile       `json:"profile"`
+	UserAddresses `json:"user_addresses"`
+	Notifications `json:"notifications"`
+}
+
+type UserAddresses struct {
+	Country       string `json:"country"`
+	StreetAddress string `json:"street_address"`
+	City          string `json:"city"`
+	State         string `json:"state"`
+	PostalCode    string `json:"postal_code"`
+}
+
+type Notifications struct {
+	Comments          bool   `json:"comments"`
+	Candidates        bool   `json:"candidates"`
+	Offers            bool   `json:"offers"`
+	SMSDeliveryOption string `json:"sms_delivery_option"`
 }
 
 type ImageRequestBody struct {
@@ -108,32 +125,38 @@ type UpdateProfileRequest struct {
 func (up UserProfile) MarshalJSON() ([]byte, error) {
 	type Alias UserProfile
 	return json.Marshal(&struct {
-		UserID      int64     `json:"user_id"`
-		Username    string    `json:"username"`
-		Email       string    `json:"email"`
-		Avatar      string    `json:"avatar"`
-		Birthdate   time.Time `json:"birthdate"`
-		Gender      string    `json:"gender"`
-		UserTypeID  int       `json:"user_type_id"`
-		Verified    bool      `json:"verified"`
-		About       string    `json:"about"`
-		FirstName   string    `json:"first_name"`
-		LastName    string    `json:"last_name"`
-		CoverPhoto  string    `json:"cover_photo"`
-		PhoneNumber string    `json:"phone_number"`
+		UserID          int64         `json:"user_id"`
+		Username        string        `json:"username"`
+		Email           string        `json:"email"`
+		Avatar          string        `json:"avatar"`
+		Birthdate       time.Time     `json:"birthdate"`
+		Gender          string        `json:"gender"`
+		UserTypeID      int           `json:"user_type_id"`
+		Verified        bool          `json:"verified"`
+		PrivacyAccepted bool          `json:"privacy_accepted"`
+		About           string        `json:"about"`
+		FirstName       string        `json:"first_name"`
+		LastName        string        `json:"last_name"`
+		CoverPhoto      string        `json:"cover_photo"`
+		PhoneNumber     string        `json:"phone_number"`
+		UserAddresses   UserAddresses `json:"user_addresses"`
+		Notifications   Notifications `json:"notifications"`
 	}{
-		UserID:      int64(up.UserID),
-		Username:    up.Username,
-		Email:       up.Email,
-		Avatar:      up.Avatar,
-		Birthdate:   up.Birthdate,
-		Gender:      up.Gender,
-		UserTypeID:  up.UserTypeID,
-		Verified:    up.Verified,
-		About:       up.About,
-		FirstName:   up.FirstName,
-		LastName:    up.LastName,
-		CoverPhoto:  up.CoverPhoto,
-		PhoneNumber: up.PhoneNumber,
+		UserID:          int64(up.UserID),
+		Username:        up.Username,
+		Email:           up.Email,
+		Avatar:          up.Avatar,
+		Birthdate:       up.Birthdate,
+		Gender:          up.Gender,
+		UserTypeID:      up.UserTypeID,
+		Verified:        up.Verified,
+		PrivacyAccepted: up.PrivacyAccepted,
+		About:           up.About,
+		FirstName:       up.FirstName,
+		LastName:        up.LastName,
+		CoverPhoto:      up.CoverPhoto,
+		PhoneNumber:     up.PhoneNumber,
+		UserAddresses:   up.UserAddresses,
+		Notifications:   up.Notifications,
 	})
 }
