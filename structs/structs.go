@@ -57,6 +57,23 @@ type Profile struct {
 	DeletedAt   time.Time `json:"deleted_at,omitempty"`
 }
 
+type Professional struct {
+	ID                     int    `json:"id"`
+	UserID                 int    `json:"user_id"`
+	TypeService            string `json:"type_service"`
+	Recommendations        int    `json:"recommendations"`
+	ProfessionalExperience string `json:"professional_experience"`
+	LinkSocialMedia        string `json:"link_social_media"`
+	LinkPortfolio          string `json:"link_portfolio"`
+}
+
+type Client struct {
+	ID              int    `json:"id"`
+	UserID          int    `json:"user_id"`
+	Company         string `json:"company"`
+	Recommendations int    `json:"recommendations"`
+}
+
 type Matches struct {
 	ID            int  `json:"id"`
 	UserID        int  `json:"user_id"`
@@ -118,6 +135,8 @@ type UpdateProfileRequest struct {
 	Candidates        bool   `json:"candidates"`
 	Offers            bool   `json:"offers"`
 	SMSDeliveryOption string `json:"sms_delivery_option"`
+	Company           string `json:"company"`
+	TypeService       string `json:"type_service"`
 }
 
 //Functions

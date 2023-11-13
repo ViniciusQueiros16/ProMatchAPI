@@ -71,6 +71,42 @@ func UpdateUserProfile(db *sql.DB, userID int64, request structs.UpdateProfileRe
 		return fmt.Errorf("UpdateUserProfile (user_addresses): %w", err)
 	}
 
+	// Update the 'company' table if Company is provided
+	if request.Company != "" {
+		clientStmt, err := db.Prepare(`
+            UPDATE client
+            SET company = ?
+            WHERE user_id = ?;
+        `)
+		if err != nil {
+			return fmt.Errorf("UpdateUserProfile (client): %w", err)
+		}
+		defer clientStmt.Close()
+
+		_, err = clientStmt.Exec(request.Company, userID)
+		if err != nil {
+			return fmt.Errorf("UpdateUserProfile (client): %w", err)
+		}
+	}
+
+	// Update the 'professional' table if TypeService is provided
+	if request.TypeService != "" {
+		professionalStmt, err := db.Prepare(`
+            UPDATE professional
+            SET type_service = ?
+            WHERE user_id = ?;
+        `)
+		if err != nil {
+			return fmt.Errorf("UpdateUserProfile (professional): %w", err)
+		}
+		defer professionalStmt.Close()
+
+		_, err = professionalStmt.Exec(request.TypeService, userID)
+		if err != nil {
+			return fmt.Errorf("UpdateUserProfile (professional): %w", err)
+		}
+	}
+
 	// Update the 'notifications' table
 	notificationsStmt, err := db.Prepare(`
 		UPDATE notifications
