@@ -147,24 +147,24 @@ functions:
           cors: true
     memorySize: 128
 
-resources:
-  Resources:
-    ImageUploadBucket:
-      Type: AWS::S3::Bucket
-      DeletionPolicy: Retain
-      Properties:
-        BucketName: ${self:custom.imageUploadBucket}
+# resources:
+#   Resources:
+#     ImageUploadBucket:
+#       Type: AWS::S3::Bucket
+#       DeletionPolicy: Retain
+#       Properties:
+#         BucketName: ${self:custom.imageUploadBucket}
 
-    ImageUploadBucketBucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket: !Ref ImageUploadBucket
-        PolicyDocument:
-          Version: "2012-10-17"
-          Statement:
-            - Effect: Allow
-              Action:
-                - "s3:GetObject"
-              Resource:
-                - !Join ["/", [!GetAtt [ImageUploadBucket, Arn], "*"]]
-              Principal: "*"
+#     ImageUploadBucketBucketPolicy:
+#       Type: AWS::S3::BucketPolicy
+#       Properties:
+#         Bucket: !Ref ImageUploadBucket
+#         PolicyDocument:
+#           Version: "2012-10-17"
+#           Statement:
+#             - Effect: Allow
+#               Action:
+#                 - "s3:GetObject"
+#               Resource:
+#                 - !Join ["/", [!GetAtt [ImageUploadBucket, Arn], "*"]]
+#               Principal: "*"
